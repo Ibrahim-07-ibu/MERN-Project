@@ -12,7 +12,7 @@ import LightRays from "../components/LightRays";
 
 function Login() {
   return (
-    <div className="login-wrapper">
+    <div >
       <div>
         <LightRays />
       </div>
@@ -28,7 +28,12 @@ function Login() {
               border: "1px solid rgba(255,255,255,0.15)",
             }}
           >
-            <Typography variant="h5" fontWeight="bold" align="center" color="white">
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              align="center"
+              color="white"
+            >
               Login
             </Typography>
 
@@ -41,14 +46,58 @@ function Login() {
               Login your account
             </Typography>
 
-            <Box component="form" >
-              <TextField fullWidth label="Email Address" margin="normal" />
+            <Box component="form">
+              <TextField
+                fullWidth
+                label="Email Address"
+                margin="normal"
+                variant="outlined"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                  "& input::placeholder": {
+                    color: "white",
+                    opacity: 1,
+                  },
+                  "& input": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                }}
+              />
               <TextField
                 fullWidth
                 label="Password"
                 type="password"
                 margin="normal"
-                
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                  "& input::placeholder": {
+                    color: "white",
+                    opacity: 1,
+                  },
+                  "& input": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                }}
               />
 
               <Button
