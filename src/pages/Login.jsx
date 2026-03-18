@@ -8,14 +8,11 @@ import {
   Box,
 } from "@mui/material";
 
-import LightRays from "../components/LightRays";
 
 function Login() {
   return (
-    <div >
-      <div>
-        <LightRays />
-      </div>
+    <div>
+
 
       <div className="login-center">
         <Container maxWidth="sm">
