@@ -12,12 +12,9 @@ import {
 function Login() {
   return (
     <div>
-
-
       <div className="login-center">
         <Container maxWidth="sm">
           <Paper
-            elevation={10}
             sx={{
               p: 4,
               borderRadius: 4,
@@ -54,13 +51,9 @@ function Login() {
                     "& fieldset": {
                       borderColor: "white",
                     },
-                    "&:hover fieldset": {
-                      borderColor: "white",
-                    },
                   },
                   "& input::placeholder": {
                     color: "white",
-                    opacity: 1,
                   },
                   "& input": {
                     color: "white",
@@ -80,13 +73,9 @@ function Login() {
                     "& fieldset": {
                       borderColor: "white",
                     },
-                    "&:hover fieldset": {
-                      borderColor: "white",
-                    },
                   },
                   "& input::placeholder": {
                     color: "white",
-                    opacity: 1,
                   },
                   "& input": {
                     color: "white",
@@ -100,13 +89,9 @@ function Login() {
               <Button
                 fullWidth
                 variant="contained"
-                size="large"
                 sx={{
                   mt: 3,
                   borderRadius: 3,
-                  background: "linear-gradient(90deg,#4f46e5,#6366f1)",
-                  textTransform: "none",
-                  fontWeight: 600,
                 }}
               >
                 Login

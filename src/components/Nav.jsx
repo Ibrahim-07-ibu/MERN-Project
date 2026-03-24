@@ -32,7 +32,7 @@ function Nav() {
       />
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Typography color="white">user</Typography>
+        <Typography color="white">User</Typography>
         <Avatar />
       </Box>
     </Box>

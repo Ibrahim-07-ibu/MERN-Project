@@ -1,4 +1,4 @@
-import { Children } from "react";
+import { Navigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Portfolio from "../pages/Portfolio";
@@ -6,19 +6,43 @@ import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 import Watchlist from "../pages/Watchlist";
 
-import Mainlayouts from "../layout/MainLayouts"
+import MainLayouts from "../layout/MainLayouts";
 
-const mainRoutes = {
-  path: "/",
-  element: <Mainlayouts />,
-  children: [
-    { path: "/Dashboard", element: <Dashboard /> },
-    { path: "/Login", element: <Login /> },
-    { path: "/Portfolio", element: <Portfolio /> },
-    { path: "/Profile", element: <Profile /> },
-    { path: "/Register", element: <Register /> },
-    { path: "/Watchlist", element: <Watchlist /> },
-  ],
-};
+const mainRoutes = [
+  {
+    path: "/",
+    element: <MainLayouts />,
+    children: [
+      {
+        path: "/",
+        element: <Navigate to="/Dashboard" replace />
+      },
+      {
+        path: "/Dashboard",
+        element: <Dashboard />
+      },
+      {
+        path: "/Portfolio",
+        element: <Portfolio />
+      },
+      {
+        path: "/Profile",
+        element: <Profile />
+      },
+      {
+        path: "/Watchlist",
+        element: <Watchlist />
+      },
+    ],
+  },
+  {
+    path: "/Login",
+    element: <Login />
+  },
+  {
+    path: "/Register",
+    element: <Register />
+  },
+];
 
 export default mainRoutes;

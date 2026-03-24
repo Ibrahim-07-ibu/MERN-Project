@@ -1,119 +1,87 @@
 import React from "react";
-import Aside from "../components/Aside";
-import Nav from "../components/Nav";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import List from "@mui/material/List";
+import MetricCard from "../components/MetricCard";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import PaidIcon from "@mui/icons-material/Paid";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import StockChart from "../components/StockChart";
+
 
 function Dashboard() {
   return (
-    <Aside>
-      <Nav />
+    <Box
+      sx={{
+        p: 6,
+        bgcolor: "#000000",
+        color: "white",
+      }}
+    >
+      <Box sx={{ mb: 6 }}>
+        <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
+          Welcome, User !!
+        </Typography>
+        <Typography variant="body1" sx={{ color: "#888" }}>
+          The market is up +1.2% today. Your portfolio is looking healthy.
+        </Typography>
+      </Box>
+
+      <Box sx={{ display: "flex", gap: 3}}>
+        <MetricCard
+          title="Total Portfolio Value"
+          value="$124,592.40"
+          trend="12.5%"
+          icon={WorkOutlineIcon}
+          trendType="up"
+        />
+        <MetricCard
+          title="Today's Profit/Loss"
+          value="+$2,410.15"
+          trend="1.8%"
+          icon={PaidIcon}
+          trendType="up"
+        />
+        <MetricCard
+          title="Top Gainer (NVDA)"
+          value="+4.52%"
+          trend="High"
+          icon={ShowChartIcon}
+          trendType="up"
+        />
+        <MetricCard
+          title="Top Loser (TSLA)"
+          value="-2.15%"
+          trend="Moderate"
+          icon={TrendingDownIcon}
+          trendType="down"
+        />
+      </Box>
       <Box
         sx={{
-          p: 4,
-          bgcolor: "#000000",
-          color: "white",
-          flex: 1,
+          mt: 5,
+          p: 3,
+          bgcolor: "#111",
+          borderRadius: 3,
+          boxShadow: "0px 4px 20px rgba(0,0,0,0.6)",
+          border: "1px solid #222"
         }}
       >
-        <Typography variant="h4" fontWeight="bold">
-          Welcome!, User!
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 2,
+            color: "white"
+          }}
+        >
+          Stock Market Overview
         </Typography>
 
-        <br />
-        <Grid
-          container
-          direction="row"
-          sx={{
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              width: 200,
-              height: 200,
-              borderRadius: 1,
-              bgcolor: "white",
-            }}
-          />
-          <br />
-
-          <Box
-            sx={{
-              width: 200,
-              height: 200,
-              borderRadius: 1,
-              bgcolor: "white",
-            }}
-          />
-          <br />
-
-          <Box
-            sx={{
-              width: 200,
-              height: 200,
-              borderRadius: 1,
-              bgcolor: "white",
-            }}
-          />
-          <br />
-
-          <Box
-            sx={{
-              width: 200,
-              height: 200,
-              borderRadius: 1,
-              bgcolor: "white",
-            }}
-          />
-        </Grid>
-        <br />
-        <Grid
-          container
-          direction="row"
-          sx={{
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              width: 500,
-              height: 450,
-              borderRadius: 1,
-              bgcolor: "gray",
-              paddingLeft: "10px",
-            }}
-          />
-          <Box
-            sx={{
-              width: "100%",
-              height: 400,
-              maxWidth: 360,
-              bgcolor: "background.paper",
-            }}
-          >
-            <List
-              rowHeight={46}
-              rowCount={200}
-              sx={{
-                height: 400,
-                width: 360,
-                bgcolor: "gray",
-              }}
-              rowProps={{}}
-              overscanCount={5}
-            />
-          </Box>
-        </Grid>
-      </Box>
-    </Aside>
+        <Box sx={{ height: 350, width: "80%" ,display:"flex",justifyContent:"center",alignItems:"center",margin:"auto"}}>
+          <StockChart />
+        </Box>
+      </Box>  
+    </Box>
   );
 }
 

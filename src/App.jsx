@@ -1,12 +1,9 @@
 import React from "react";
-// import Register from "./pages/Register";
-// import Login from "./pages/Login.jsx";
-// import Register from "./pages/Register.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/router";
 
 function App() {
-  // return <Register />
-  return <Dashboard/>
+  return <RouterProvider router={router} />;
 }
 
 export default App;

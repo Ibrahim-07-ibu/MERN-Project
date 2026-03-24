@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -12,6 +13,15 @@ import StarIcon from "@mui/icons-material/Star";
 import PersonIcon from "@mui/icons-material/Person";
 
 function Aside({ children }) {
+  const location = useLocation();
+
+  const menuItems = [
+    { text: "Dashboard", icon: <DashboardIcon />, path: "/Dashboard" },
+    { text: "Portfolio", icon: <AccountBalanceWalletIcon />, path: "/Portfolio" },
+    { text: "Watchlist", icon: <StarIcon />, path: "/Watchlist" },
+    { text: "Profile", icon: <PersonIcon />, path: "/Profile" },
+  ];
+
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#0f172a" }}>
       <Box
@@ -20,77 +30,39 @@ function Aside({ children }) {
           bgcolor: "#000000",
           color: "white",
           p: 2,
-          borderRight: "1px solid #1f2937",
+          // borderRight: "1px solid #1f2937",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Typography variant="h6" fontWeight="bold" mb={4} padding={1} ml={8}>
-          name
+        <Typography variant="h6" fontWeight="bold" mb={4} textAlign="center">
+        stock market
         </Typography>
 
         <List>
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mb: 1,
-                "&:hover": { bgcolor: "#1f2937" },
-              }}
-            >
-              <ListItemIcon sx={{ color: "white" }}>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mb: 1,
-                "&:hover": { bgcolor: "#1f2937" },
-              }}
-            >
-              <ListItemIcon sx={{ color: "white" }}>
-                <AccountBalanceWalletIcon />
-              </ListItemIcon>
-              <ListItemText primary="Portfolio" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mb: 1,
-                "&:hover": { bgcolor: "#1f2937" },
-              }}
-            >
-              <ListItemIcon sx={{ color: "white" }}>
-                <StarIcon />
-              </ListItemIcon>
-              <ListItemText primary="Watchlist" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mb: 1,
-                "&:hover": { bgcolor: "#1f2937" },
-              }}
-            >
-              <ListItemIcon sx={{ color: "white" }}>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItemButton>
-          </ListItem>
+          {menuItems.map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={item.path}
+                sx={{
+                  borderRadius: 2,
+                  mb: 1,
+                  bgcolor: location.pathname === item.path ? "#1f2937" : "transparent",
+                  "&:hover": { bgcolor: "#1f2937" },
+                }}
+              >
+                <ListItemIcon sx={{ color: "white" }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Box>
 
-      <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {children}
       </Box>
     </Box>

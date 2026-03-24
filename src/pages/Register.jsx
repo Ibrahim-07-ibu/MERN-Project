@@ -8,7 +8,6 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
 function Register() {
   return (
     <div>
@@ -16,7 +15,6 @@ function Register() {
         <div className="login-center">
           <Container maxWidth="sm">
             <Paper
-              elevation={10}
               sx={{
                 p: 4,
                 borderRadius: 4,
@@ -53,13 +51,9 @@ function Register() {
                       "& fieldset": {
                         borderColor: "white",
                       },
-                      "&:hover fieldset": {
-                        borderColor: "white",
-                      },
                     },
                     "& input::placeholder": {
                       color: "white",
-                      opacity: 1,
                     },
                     "& input": {
                       color: "white",
