@@ -4,30 +4,21 @@ import Typography from "@mui/material/Typography";
 import MetricCard from "../components/MetricCard";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import PaidIcon from "@mui/icons-material/Paid";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import StockChart from "../components/StockChart";
-
 
 function Dashboard() {
   return (
-    <Box
-      sx={{
-        p: 6,
-        bgcolor: "#000000",
-        color: "white",
-      }}
-    >
-      <Box sx={{ mb: 6 }}>
-        <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-          Welcome, User !!
-        </Typography>
-        <Typography variant="body1" sx={{ color: "#888" }}>
+    <Box className="p-6 bg-black h-200 text-white">
+      <Box className="mb-10">
+        <Typography variant="h4">Welcome, User !!</Typography>
+        <Typography variant="body3" className="text-gray-400">
           The market is up +1.2% today. Your portfolio is looking healthy.
         </Typography>
       </Box>
 
-      <Box sx={{ display: "flex", gap: 3}}>
+      <Box className=" flex gap-10">
         <MetricCard
           title="Total Portfolio Value"
           value="$124,592.40"
@@ -46,7 +37,7 @@ function Dashboard() {
           title="Top Gainer (NVDA)"
           value="+4.52%"
           trend="High"
-          icon={ShowChartIcon}
+          icon={TrendingUpIcon}
           trendType="up"
         />
         <MetricCard
@@ -57,30 +48,13 @@ function Dashboard() {
           trendType="down"
         />
       </Box>
-      <Box
-        sx={{
-          mt: 5,
-          p: 3,
-          bgcolor: "#111",
-          borderRadius: 3,
-          boxShadow: "0px 4px 20px rgba(0,0,0,0.6)",
-          border: "1px solid #222"
-        }}
-      >
-        <Typography
-          variant="h6"
-          sx={{
-            mb: 2,
-            color: "white"
-          }}
-        >
-          Stock Market Overview
-        </Typography>
+      <Box className="mt-7 p-5 bg-[#111] rounded-xl border border-[#5c5959]  w-150">
+        <Typography variant="h6">Portfolio Performance</Typography>
 
-        <Box sx={{ height: 350, width: "80%" ,display:"flex",justifyContent:"center",alignItems:"center",margin:"auto"}}>
+        <Box>
           <StockChart />
         </Box>
-      </Box>  
+      </Box>
     </Box>
   );
 }

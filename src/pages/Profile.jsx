@@ -6,14 +6,15 @@ import List from "@mui/material/List";
 
 function Profile() {
   return (
- <Box
+    <Box
       sx={{
         p: 6,
         bgcolor: "#000000",
         color: "white",
-        height:"100vh"
+        height: "100vh",
       }}
-    ></Box>   );
+    ></Box>
+  );
 }
 
 export default Profile;

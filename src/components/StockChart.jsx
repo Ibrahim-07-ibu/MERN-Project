@@ -28,15 +28,10 @@ function StockChart() {
         data: [100, 120, 115, 140, 135, 150],
         borderColor: "#197ce6ff",
       },
-      {
-        label: "Stock Demand",
-        data: [50, 100, 80, 200, 150, 300],
-        borderColor: "lightblue",
-      },
     ],
   };
 
-  return <Line data={data} style={{ width: "100%", height: "100%" }} />;
+  return <Line data={data} sx={{ width: "100%", height: "100%" }} />;
 }
 
 export default StockChart;

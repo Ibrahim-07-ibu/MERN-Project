@@ -8,7 +8,6 @@ import {
   Box,
 } from "@mui/material";
 
-
 function Login() {
   return (
     <div>
@@ -18,7 +17,7 @@ function Login() {
             sx={{
               p: 4,
               borderRadius: 4,
-              background: "rgba(255,255,255,0.08)",
+              background: "#ffffff14",
               border: "1px solid rgba(255,255,255,0.15)",
             }}
           >
@@ -31,12 +30,7 @@ function Login() {
               Login
             </Typography>
 
-            <Typography
-              variant="body2"
-              color="white"
-              align="center"
-              gutterBottom
-            >
+            <Typography variant="body2" color="white" align="center">
               Login your account
             </Typography>
 

@@ -14,34 +14,30 @@ const mainRoutes = [
     element: <MainLayouts />,
     children: [
       {
-        path: "/",
-        element: <Navigate to="/Dashboard" replace />
-      },
-      {
         path: "/Dashboard",
-        element: <Dashboard />
+        element: <Dashboard />,
       },
       {
         path: "/Portfolio",
-        element: <Portfolio />
+        element: <Portfolio />,
       },
       {
         path: "/Profile",
-        element: <Profile />
+        element: <Profile />,
       },
       {
         path: "/Watchlist",
-        element: <Watchlist />
+        element: <Watchlist />,
       },
     ],
   },
   {
     path: "/Login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "/Register",
-    element: <Register />
+    element: <Register />,
   },
 ];
 

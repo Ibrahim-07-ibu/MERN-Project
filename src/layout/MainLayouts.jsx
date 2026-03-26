@@ -7,9 +7,9 @@ function MainLayouts() {
   return (
     <Aside>
       <Nav />
-        <Outlet />
+      <Outlet />
     </Aside>
   );
-};
+}
 
 export default MainLayouts;

@@ -11,7 +11,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import StarIcon from "@mui/icons-material/Star";
 import PersonIcon from "@mui/icons-material/Person";
-
+import LogoutIcon from '@mui/icons-material/Logout';
 function Aside({ children }) {
   const location = useLocation();
 
@@ -20,20 +20,21 @@ function Aside({ children }) {
     { text: "Portfolio", icon: <AccountBalanceWalletIcon />, path: "/Portfolio" },
     { text: "Watchlist", icon: <StarIcon />, path: "/Watchlist" },
     { text: "Profile", icon: <PersonIcon />, path: "/Profile" },
+    { text: "Logout", icon: <LogoutIcon />, path: "/Login" },
   ];
 
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#0f172a" }}>
       <Box
-        sx={{
-          width: 240,
-          bgcolor: "#000000",
-          color: "white",
-          p: 2,
-          // borderRight: "1px solid #1f2937",
-          display: "flex",
-          flexDirection: "column",
-        }}
+        // sx={{
+        //   width: 240,
+        //   bgcolor: "#000000",
+        //   color: "white",
+        //   p: 2,
+        //   display: "flex",
+        //   flexDirection: "column",
+        // }}
+        className="w-60 bg-[#000] text-white p-2 "
       >
         <Typography variant="h6" fontWeight="bold" mb={4} textAlign="center">
         stock market
@@ -62,7 +63,7 @@ function Aside({ children }) {
         </List>
       </Box>
 
-      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column"}}>
         {children}
       </Box>
     </Box>

@@ -11,7 +11,7 @@ import {
 function Register() {
   return (
     <div>
-      <div className="left">
+      <div>
         <div className="login-center">
           <Container maxWidth="sm">
             <Paper
@@ -80,7 +80,6 @@ function Register() {
                     },
                     "& input::placeholder": {
                       color: "white",
-                      opacity: 1,
                     },
                     "& input": {
                       color: "white",
@@ -107,7 +106,6 @@ function Register() {
                     },
                     "& input::placeholder": {
                       color: "white",
-                      opacity: 1,
                     },
                     "& input": {
                       color: "white",
@@ -117,9 +115,7 @@ function Register() {
                     },
                   }}
                 >
-                  <IconButton>
-                    <Visibility />
-                  </IconButton>
+                  <IconButton>{/* <Visibility /> */}</IconButton>
                 </TextField>
 
                 <TextField
@@ -138,7 +134,6 @@ function Register() {
                     },
                     "& input::placeholder": {
                       color: "white",
-                      opacity: 1,
                     },
                     "& input": {
                       color: "white",
@@ -156,9 +151,6 @@ function Register() {
                   sx={{
                     mt: 3,
                     borderRadius: 3,
-                    background: "linear-gradient(90deg,#4f46e5,#6366f1)",
-                    textTransform: "none",
-                    fontWeight: 600,
                   }}
                 >
                   Register
