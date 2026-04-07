@@ -1,10 +1,9 @@
 import { Navigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
-import Portfolio from "../pages/Portfolio";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
-import Watchlist from "../pages/Watchlist";
+import Calculator from "../pages/Calculator";
 
 import MainLayouts from "../layout/MainLayouts";
 
@@ -14,20 +13,20 @@ const mainRoutes = [
     element: <MainLayouts />,
     children: [
       {
+        index: true,
+        element: <Navigate to="/Dashboard" replace />,
+      },
+      {
         path: "/Dashboard",
         element: <Dashboard />,
       },
       {
-        path: "/Portfolio",
-        element: <Portfolio />,
+        path: "/Calculator",
+        element: <Calculator />,
       },
       {
         path: "/Profile",
         element: <Profile />,
-      },
-      {
-        path: "/Watchlist",
-        element: <Watchlist />,
       },
     ],
   },
@@ -38,6 +37,10 @@ const mainRoutes = [
   {
     path: "/Register",
     element: <Register />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/Dashboard" replace />,
   },
 ];
 
