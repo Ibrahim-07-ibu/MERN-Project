@@ -7,54 +7,33 @@ import CircularProgress from "@mui/material/CircularProgress";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 
-// Import our shared chart component
 import StockChart from "../components/dashboard/StockChart";
 
-/**
- * STOCK DETAIL PAGE
- * 
- * This page shows deep insights for a specific stock (like AAPL or TSLA).
- * It uses the 'symbol' from the URL to know which stock to fetch.
- */
 const StockPage = () => {
-  
-  /**
-   * 1. URL PARAMETERS
-   * 'useParams' is a special React hook that grabs variables from the URL.
-   * Example: If the URL is /stocks/AAPL, then 'symbol' will be "AAPL".
-   */
+
   const { symbol } = useParams();
 
-  /**
-   * 2. STATE MANAGEMENT
-   */
-  const [stockDetails, setStockDetails] = useState(null); // Stores the full stock object
-  const [isPageLoading, setIsPageLoading] = useState(true); // Loading spinner state
-  const [errorMessage, setErrorMessage] = useState(null); // Stores error text if something fails
+  const [stockDetails, setStockDetails] = useState(null);
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  /**
-   * 3. DATA FETCHING (LIFECYCLE)
-   * This effect runs every time the 'symbol' in the URL changes.
-   */
   useEffect(() => {
-    
-    // Internal function to handle the API call
+
     const downloadStockData = async () => {
-      // Reset state for the new stock
+
       setIsPageLoading(true);
       setErrorMessage(null);
 
       try {
-        // Fetch data from our Backend API using the symbol from the URL
+
         const apiResponse = await axios.get(`http://localhost:5000/api/stocks/${symbol}`);
-        
-        // Save the successful result
+
         setStockDetails(apiResponse.data);
       } catch (error) {
-        console.error("❌ Stock Page Error:", error.message);
+        console.error(" Stock Page Error:", error.message);
         setErrorMessage(`The symbol "${symbol}" could not be found in our database.`);
       } finally {
-        // Whether it succeeded or failed, we are no longer "loading"
+
         setIsPageLoading(false);
       }
     };
@@ -62,10 +41,6 @@ const StockPage = () => {
     downloadStockData();
   }, [symbol]);
 
-  /**
-   * 4. CONDITIONAL RENDERING (Loading State)
-   * If we are still waiting for the API, show a loading spinner.
-   */
   if (isPageLoading === true && stockDetails === null) {
     return (
       <Box className="flex items-center justify-center h-[80vh]">
@@ -77,10 +52,6 @@ const StockPage = () => {
     );
   }
 
-  /**
-   * 5. CONDITIONAL RENDERING (Error State)
-   * If the stock symbol doesn't exist, show a helpful error message.
-   */
   if (errorMessage !== null || stockDetails === null) {
     return (
       <Box className="p-12 text-center max-w-2xl mx-auto glass-card mt-20">
@@ -91,7 +62,7 @@ const StockPage = () => {
           {errorMessage || "We encountered an error while retrieving the market data."}
         </Typography>
         
-        {/* Helper buttons to get user back on track */}
+        {}
         <Box className="flex justify-center gap-4">
           {["AAPL", "TSLA", "NVDA"].map((exampleSymbol) => (
             <Box 
@@ -107,13 +78,12 @@ const StockPage = () => {
     );
   }
 
-  // Helper boolean to see if the price is up or down
   const isPricePositive = stockDetails.change >= 0;
 
   return (
     <Box className="p-8 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
-      {/* 6. HERO SECTION: Big Name and Price */}
+      {}
       <Box className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-8">
         <Box>
           <Box className="flex items-center gap-3 mb-4">
@@ -142,7 +112,7 @@ const StockPage = () => {
           </Typography>
         </Box>
 
-        {/* 7. PRICE HIGHLIGHT CARD */}
+        {}
         <Box className="glass-card p-10 min-w-[340px] border-l-8" style={{ borderColor: isPricePositive ? 'var(--color-positive)' : 'var(--color-negative)' }}>
           <Typography variant="caption" className="text-gray-500 font-black tracking-widest uppercase mb-3 block">
             Market Value ({stockDetails.currency || 'USD'})
@@ -167,15 +137,15 @@ const StockPage = () => {
         </Box>
       </Box>
 
-      {/* 8. CHART AREA */}
+      {}
       <Box className="grid grid-cols-1 gap-8 mb-8">
         <Box>
-            {/* We pass the 'symbol' prop into our StockChart component */}
+            {}
             <StockChart symbol={symbol} />
         </Box>
       </Box>
 
-      {/* FOOTER */}
+      {}
       <Box className="mt-12 pt-8 border-t border-white/5 text-center">
         <Typography variant="caption" className="text-gray-700 font-black uppercase tracking-widest text-[10px]">
           © 2024 StockSight Analysis Platform. All information is for educational purposes.

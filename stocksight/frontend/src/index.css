@@ -37,7 +37,6 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Nuclear hide for TradingView Attribution Logo */
 [class*="tv-embed-logo"],
 [class*="attribution"],
 [class*="logo-"],

@@ -20,7 +20,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const storedUser = JSON.parse(localStorage.getItem("user"));
+        const storedUser = JSON.parse(localStorage.getItem("stocksight_user"));
         if (!storedUser || !storedUser.email) return;
 
         const response = await axios.get(`http://localhost:5000/api/users/profile?email=${storedUser.email}`);
@@ -41,6 +41,16 @@ const Profile = () => {
         }));
       } catch (err) {
         console.error("Error fetching profile:", err);
+
+        const storedUser = JSON.parse(localStorage.getItem("stocksight_user"));
+        if (storedUser) {
+          setUserData(prev => ({
+            ...prev,
+            name: storedUser.name || prev.name,
+            email: storedUser.email || prev.email,
+            avatar: `https://i.pravatar.cc/150?u=${storedUser.email || 'felix'}`,
+          }));
+        }
       }
     };
     fetchUser();
@@ -48,7 +58,7 @@ const Profile = () => {
 
   return (
     <Box className="p-8 pb-12 animate-in fade-in duration-700">
-      {/* Page Header */}
+      {}
       <Box className="mb-10 text-center lg:text-left">
         <Typography variant="h3" className="font-bold tracking-tight mb-2 uppercase">
           My Profile
@@ -58,7 +68,7 @@ const Profile = () => {
         </Typography>
       </Box>
 
-      {/* Profile Card */}
+      {}
       <ProfileHeader user={userData} />
 
       <Box className="pt-8 border-t border-white/5 text-center">

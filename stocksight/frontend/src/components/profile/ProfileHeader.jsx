@@ -2,10 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";  
 
 const ProfileHeader = ({ user }) => {
   return (
@@ -16,12 +14,6 @@ const ProfileHeader = ({ user }) => {
             src={user.avatar} 
             sx={{ width: 120, height: 120, border: "4px solid var(--color-accent-blue)", boxShadow: "0 0 30px rgba(59, 130, 246, 0.3)" }}
           />
-          <IconButton 
-            className="absolute bottom-0 right-0 bg-accent-blue hover:bg-blue-600 transition-colors"
-            sx={{ color: "white", width: 36, height: 36, border: "3px solid var(--color-dashboard-bg)" }}
-          >
-            <CameraAltIcon sx={{ fontSize: 16 }} />
-          </IconButton>
         </Box>
 
         <Typography variant="h4" className="font-bold mb-2 tracking-tight text-white text-center">

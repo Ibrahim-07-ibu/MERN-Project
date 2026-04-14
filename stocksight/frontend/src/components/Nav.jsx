@@ -10,16 +10,34 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 
 function Nav() {
   const location = useLocation();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     if (e.key === "Enter" && search.trim()) {
-      navigate(`/stocks/${search.trim().toUpperCase()}`);
-      setSearch("");
+      const symbol = search.trim().toUpperCase();
+      setLoading(true);
+      setError("");
+
+      try {
+
+        await axios.get(`http://localhost:5000/api/stocks/${symbol}`);
+
+        navigate(`/stocks/${symbol}`);
+        setSearch("");
+      } catch (err) {
+
+        setError(err.response?.data?.message || "Stock not found or we don't provide data for this company.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -46,7 +64,7 @@ function Nav() {
         bgcolor: "transparent",
       }}
     >
-      {/* Breadcrumbs */}
+      {}
       <Box className="flex items-center gap-2">
         <Typography variant="body1" className="font-bold text-white text-lg">
           {getTitle()}
@@ -57,15 +75,27 @@ function Nav() {
         </Typography>
       </Box>
 
-      {/* Search Bar */}
-      <Box className="flex-1 max-w-xl mx-8">
-        <Box className="flex items-center bg-white/5 border border-white/10 rounded-xl px-4 py-2 focus-within:border-blue-500/50 transition-all">
-          <SearchIcon sx={{ color: "var(--color-text-muted)", mr: 1, fontSize: 20 }} />
+      {}
+      <Box className="flex-1 max-w-xl mx-8 relative">
+        <Box 
+          className={`flex items-center bg-white/5 border rounded-xl px-4 py-2 transition-all ${
+            error ? "border-red-500/50" : "border-white/10"
+          } focus-within:border-blue-500/50`}
+        >
+          {loading ? (
+            <CircularProgress size={20} sx={{ color: "var(--color-accent-blue)", mr: 1 }} />
+          ) : (
+            <SearchIcon sx={{ color: error ? "#ef4444" : "var(--color-text-muted)", mr: 1, fontSize: 20 }} />
+          )}
           <InputBase
             placeholder="Search stock (e.g. AAPL, TSLA)..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              if (error) setError("");
+            }}
             onKeyDown={handleSearch}
+            disabled={loading}
             sx={{ 
               color: "white", 
               width: "100%",
@@ -77,16 +107,18 @@ function Nav() {
             }}
           />
         </Box>
+        {error && (
+          <Typography 
+            variant="caption" 
+            className="absolute -bottom-6 left-1 text-red-500 font-medium animate-in slide-in-from-top-1 fade-in duration-300"
+          >
+            {error}
+          </Typography>
+        )}
       </Box>
 
-      {/* Actions */}
+      {}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-        <IconButton sx={{ color: "var(--color-text-muted)", bgcolor: "white/5", "&:hover": { bgcolor: "white/10" } }}>
-          <NotificationsNoneIcon fontSize="small" />
-        </IconButton>
-        <IconButton sx={{ color: "var(--color-text-muted)", bgcolor: "white/5", "&:hover": { bgcolor: "white/10" } }}>
-          <DarkModeOutlinedIcon fontSize="small" />
-        </IconButton>
         <Avatar 
           src="https://i.pravatar.cc/150?u=felix" 
           sx={{ 

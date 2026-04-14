@@ -3,8 +3,7 @@ import Watchlist from "../schemas/Watchlist.js";
 export const addToWatchlist = async (req, res) => {
     try {
         const { username, symbol } = req.body;
-        
-        // Skip if already in watchlist
+
         const existing = await Watchlist.findOne({ username, symbol });
         if (existing) {
             return res.status(400).json({ message: "Stock already in watchlist" });
