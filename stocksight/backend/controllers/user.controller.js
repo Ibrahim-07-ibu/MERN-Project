@@ -5,34 +5,31 @@ export const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        // Check if user already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: "User already exists" });
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "Name, email, and password are required." });
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "An account with this email already exists." });
+        }
 
-        // Save user
-        const newUser = new User({
-            name,
-            email,
-            password: hashedPassword
-        });
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
+        const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
 
-        // Remove password from response
         const userResponse = newUser.toObject();
         delete userResponse.password;
 
         res.status(201).json({
-            message: "User registered",
-            user: userResponse
+            message: "Account created successfully!",
+            user: userResponse,
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Register Error:", error.message);
+        res.status(500).json({ message: "Server error during registration." });
     }
 };
 
@@ -40,52 +37,53 @@ export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Find user
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required." });
+        }
+
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "No account found with this email." });
         }
 
-        // Compare password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: "Invalid credentials" });
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ message: "Incorrect password. Please try again." });
         }
 
-        // Remove password from response
         const userResponse = user.toObject();
         delete userResponse.password;
 
         res.status(200).json({
-            message: "Login successful",
-            user: userResponse
+            message: "Login successful!",
+            user: userResponse,
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Login Error:", error.message);
+        res.status(500).json({ message: "Server error during login." });
     }
 };
 
 export const getUserProfile = async (req, res) => {
     try {
-        // Accept email or username from query or body
-        const { email, username } = req.query.email || req.query.username ? req.query : req.body;
-        
-        const identifier = email || username;
+
+        const identifier = req.query.email || req.query.username || req.body.email || req.body.username;
+
         if (!identifier) {
-            return res.status(400).json({ message: "Email or username is required" });
+            return res.status(400).json({ message: "An email or username is required." });
         }
 
-        // Find user (treating name as username since we don't have a separate username field)
         const user = await User.findOne({
-            $or: [{ email: identifier }, { name: identifier }]
+            $or: [{ email: identifier }, { name: identifier }],
         }).select("-password");
 
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found." });
         }
 
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Profile Error:", error.message);
+        res.status(500).json({ message: "Server error fetching profile." });
     }
 };

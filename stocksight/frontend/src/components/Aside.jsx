@@ -17,10 +17,11 @@ import { useState, useEffect } from "react";
 
 function Aside({ children }) {
   const location = useLocation();
-  const [user, setUser] = useState({ name: "Felix Investor" });
+  const [user, setUser] = useState({ name: "Guest User" });
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    const storedUser = JSON.parse(localStorage.getItem("stocksight_user"));
     if (storedUser && storedUser.name) {
       setUser(storedUser);
     }
@@ -34,13 +35,13 @@ function Aside({ children }) {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "var(--color-dashboard-bg)" }}>
-      {/* Sidebar — fixed width, no collapse */}
+      {}
       <Box
         sx={{ width: "256px" }}
         className="sidebar-gradient text-white p-4 flex flex-col justify-between fixed left-0 top-0 h-screen border-r border-white/5 z-50"
       >
         <div>
-          {/* Logo */}
+          {}
           <Box className="flex items-center gap-3 mb-10 px-2 min-h-[40px]">
             <Box className="w-10 h-10 bg-accent-blue rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
               <TrendingUpIcon sx={{ color: "white" }} />
@@ -50,7 +51,7 @@ function Aside({ children }) {
             </Typography>
           </Box>
 
-          {/* Navigation */}
+          {}
           <List sx={{ px: 0 }}>
             {menuItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -86,22 +87,14 @@ function Aside({ children }) {
           </List>
         </div>
 
-        {/* Bottom User Profile */}
+        {}
         <Box className="mt-auto">
-          <Box className="glass-card p-3 flex items-center gap-3 mb-6 bg-white/5 border border-white/10 rounded-2xl">
-            <Avatar
-              src={`https://i.pravatar.cc/150?u=${user.name}`}
-              sx={{ width: 34, height: 34, border: "2px solid rgba(59, 130, 246, 0.5)" }}
-            />
-            <Box>
-              <Typography variant="body2" className="font-bold text-white leading-tight">{user.name}</Typography>
-              <Typography variant="caption" className="text-gray-400">Pro Member</Typography>
-            </Box>
-          </Box>
 
+          {}
           <ListItemButton
             component={Link}
             to="/Login"
+            onClick={() => localStorage.removeItem("stocksight_user")}
             sx={{
               borderRadius: "12px",
               py: 1.5,
@@ -117,7 +110,7 @@ function Aside({ children }) {
         </Box>
       </Box>
 
-      {/* Main Content Area */}
+      {}
       <Box
         component="main"
         sx={{

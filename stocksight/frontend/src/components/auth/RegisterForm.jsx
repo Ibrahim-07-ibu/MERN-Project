@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -7,19 +7,22 @@ import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
+import { AuthLogo } from "./AuthSidebar";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
+  const [agree, setAgree] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,155 +30,162 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
+      return setError("Passwords do not match.");
     }
-    try {
-      const response = await axios.post("http://localhost:5000/api/users/register", {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password
-      });
-      console.log("Registration successful:", response.data);
-      navigate("/Login");
-    } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+    if (!agree) {
+      return setError("Please agree to the Terms & Conditions.");
     }
+
+    setIsLoading(true);
+    setError("");
+
+    const result = await register(formData.name, formData.email, formData.password);
+
+    if (result.success) {
+      navigate("/Dashboard");
+    } else {
+      setError(result.message);
+    }
+    setIsLoading(false);
   };
+
+  const fieldSx = {
+    "& .MuiOutlinedInput-root": {
+      bgcolor: "rgba(255, 255, 255, 0.02)",
+      borderRadius: "12px",
+      color: "white",
+      fontSize: "0.9rem",
+      "& fieldset": { borderColor: "rgba(255, 255, 255, 0.08)", transition: "all 0.2s" },
+      "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.2)" },
+      "&.Mui-focused fieldset": { borderColor: "#3b82f6", borderWidth: "1.5px" },
+    },
+    "& .MuiInputBase-input": { py: 1.8 }
+  };
+
   return (
-    <Box className="max-w-sm w-full mx-auto lg:mx-0 my-12">
-      <Typography variant="h3" className="font-bold mb-2 tracking-tight leading-tight uppercase">Join StockSight</Typography>
-      <Typography variant="body2" className="text-gray-500 font-medium mb-10">
+    <Box className="flex flex-col">
+      <AuthLogo />
+
+      <Typography variant="h3" className="text-white font-bold mb-3 tracking-tight">Join StockSight</Typography>
+      <Typography variant="body1" className="text-gray-500 font-medium mb-12">
         Start your journey to financial freedom today.
       </Typography>
 
-      {error && <Typography color="error" variant="caption" sx={{ mb: 2, display: "block" }}>{error}</Typography>}
-      <Box component="form" onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <Box className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+          <Typography className="text-red-500 text-xs font-bold">{error}</Typography>
+        </Box>
+      )}
+
+      <Box component="form" onSubmit={handleSubmit} className="space-y-6 max-w-md">
         <Box>
-          <Typography variant="caption" className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mb-2 block">Full Name</Typography>
+          <Typography className="text-gray-500 font-bold uppercase text-[10px] tracking-widest mb-2 ml-1">Full Name</Typography>
           <TextField
             fullWidth
             placeholder="John Doe"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                bgcolor: "rgba(255, 255, 255, 0.03)",
-                borderRadius: "8px",
-                color: "white",
-                fontSize: "0.85rem",
-                "& fieldset": { borderColor: "rgba(255, 255, 255, 0.08)" },
-                "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.15)" },
-                "&.Mui-focused fieldset": { borderColor: "var(--color-accent-blue)" },
-              },
-              "& input": { py: 1.2 }
-            }}
+            required
+            sx={fieldSx}
           />
         </Box>
 
         <Box>
-          <Typography variant="caption" className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mb-2 block">Email Address</Typography>
+          <Typography className="text-gray-500 font-bold uppercase text-[10px] tracking-widest mb-2 ml-1">Email Address</Typography>
           <TextField
             fullWidth
+            type="email"
             placeholder="name@example.com"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                bgcolor: "rgba(255, 255, 255, 0.03)",
-                borderRadius: "8px",
-                color: "white",
-                fontSize: "0.85rem",
-                "& fieldset": { borderColor: "rgba(255, 255, 255, 0.08)" },
-                "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.15)" },
-                "&.Mui-focused fieldset": { borderColor: "var(--color-accent-blue)" },
-              },
-              "& input": { py: 1.2 }
-            }}
+            required
+            sx={fieldSx}
           />
         </Box>
 
-        <Box className="grid grid-cols-2 gap-4">
-          <Box>
-            <Typography variant="caption" className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mb-2 block">Password</Typography>
-            <TextField
-              fullWidth
-              type="password"
-              placeholder="••••••••"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  bgcolor: "rgba(255, 255, 255, 0.03)",
-                  borderRadius: "8px",
-                  color: "white",
-                  fontSize: "0.85rem",
-                  "& fieldset": { borderColor: "rgba(255, 255, 255, 0.08)" },
-                  "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.15)" },
-                  "&.Mui-focused fieldset": { borderColor: "var(--color-accent-blue)" },
-                },
-                "& input": { py: 1.2 }
-              }}
-            />
-          </Box>
-          <Box>
-            <Typography variant="caption" className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mb-2 block">Confirm</Typography>
-            <TextField
-              fullWidth
-              type="password"
-              placeholder="••••••••"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  bgcolor: "rgba(255, 255, 255, 0.03)",
-                  borderRadius: "8px",
-                  color: "white",
-                  fontSize: "0.85rem",
-                  "& fieldset": { borderColor: "rgba(255, 255, 255, 0.08)" },
-                  "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.15)" },
-                  "&.Mui-focused fieldset": { borderColor: "var(--color-accent-blue)" },
-                },
-                "& input": { py: 1.2 }
-              }}
-            />
-          </Box>
+        <Box>
+          <Typography className="text-gray-500 font-bold uppercase text-[10px] tracking-widest mb-2 ml-1">Password</Typography>
+          <TextField
+            fullWidth
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="••••••••"
+            required
+            sx={fieldSx}
+          />
+        </Box>
+
+        <Box>
+          <Typography className="text-gray-500 font-bold uppercase text-[10px] tracking-widest mb-2 ml-1">Confirm Password</Typography>
+          <TextField
+            fullWidth
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="••••••••"
+            required
+            sx={fieldSx}
+          />
         </Box>
 
         <FormControlLabel
-          control={<Checkbox size="small" sx={{ color: "rgba(255, 255, 255, 0.2)", "&.Mui-checked": { color: "var(--color-accent-blue)" } }} />}
-          label={<Typography variant="caption" className="text-gray-500 font-medium leading-none">I agree to the <span className="text-accent-blue cursor-pointer font-bold">Terms</span> and <span className="text-accent-blue cursor-pointer font-bold">Privacy</span>.</Typography>}
+          control={
+            <Checkbox
+              size="small"
+              checked={agree}
+              onChange={(e) => setAgree(e.target.checked)}
+              sx={{ color: "rgba(255, 255, 255, 0.2)", "&.Mui-checked": { color: "#3b82f6" } }}
+            />
+          }
+          label={
+            <Typography variant="caption" className="text-gray-500 font-medium">
+              I agree to the <span className="text-white hover:underline cursor-pointer">Terms of Service</span> and <span className="text-white hover:underline cursor-pointer">Privacy Policy</span>.
+            </Typography>
+          }
+          sx={{ mb: 2, ml: 0, alignItems: "flex-start" }}
         />
 
         <Button
           fullWidth
           type="submit"
           variant="contained"
-          endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
+          disabled={isLoading}
+          endIcon={<ArrowForwardIcon sx={{ fontSize: 18 }} />}
           sx={{
-            bgcolor: "var(--color-accent-blue)",
-            py: 1.8,
-            borderRadius: "10px",
-            fontWeight: 700,
+            bgcolor: "#3b82f6",
+            py: 2,
+            borderRadius: "14px",
+            fontWeight: 800,
             textTransform: "none",
-            fontSize: "0.95rem",
-            letterSpacing: "0.5px",
-            boxShadow: "0 0 20px rgba(59, 130, 246, 0.4)",
-            "&:hover": { bgcolor: "#2563eb", boxShadow: "0 0 30px rgba(59, 130, 246, 0.6)" }
+            fontSize: "1rem",
+            boxShadow: "0 4px 20px rgba(59, 130, 246, 0.3)",
+            "&:hover": { bgcolor: "#2563eb", boxShadow: "0 8px 30px rgba(59, 130, 246, 0.5)" },
+            "&.Mui-disabled": { bgcolor: "rgba(59, 130, 246, 0.3)", color: "rgba(255, 255, 255, 0.3)" }
           }}
         >
-          Create Account
+          {isLoading ? "Creating Account..." : "Create Account"}
         </Button>
       </Box>
 
-      <Typography variant="caption" className="mt-10 text-center text-gray-500 font-medium block">
-        Already have an account? <Link to="/Login" className="text-accent-blue font-bold hover:underline">Log in</Link>
+      <Typography variant="body2" className="mt-8 text-center text-gray-500 font-medium tracking-tight max-w-md">
+        Already have an account? <Link to="/Login" className="text-blue-500 font-bold hover:underline">Log in</Link>
       </Typography>
+
+      {}
+      <Box className="mt-auto pt-16 flex gap-6">
+        {["Privacy", "Terms", "Contact Support"].map(link => (
+          <Typography key={link} variant="caption" className="text-gray-600 font-bold hover:text-gray-400 cursor-pointer transition-colors">
+            {link}
+          </Typography>
+        ))}
+      </Box>
     </Box>
   );
 };
