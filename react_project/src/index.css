@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dashboard-bg: #050509;
+  --color-sidebar-bg: #0a0a14;
+  --color-card-bg: rgba(16, 16, 24, 0.8);
+  --color-accent-blue: #3b82f6;
+  --color-accent-purple: #8b5cf6;
+  --color-positive: #10b981;
+  --color-negative: #ef4444;
+  --color-text-muted: #94a3b8;
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-text-primary: #ffffff;
+}
+
+.glass-card {
+  background: var(--color-card-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar-gradient {
+  background: linear-gradient(180deg, #0a0a14 0%, #050509 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body {
+  background-color: var(--color-dashboard-bg);
+  color: white;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Nuclear hide for TradingView Attribution Logo */
+[class*="tv-embed-logo"],
+[class*="attribution"],
+[class*="logo-"],
+a[title*="TradingView"],
+a[aria-label*="TradingView"],
+div[style*="pointer-events: none"] > a[href*="tradingview"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  z-index: -999 !important;
+}
