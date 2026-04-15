@@ -4,9 +4,7 @@ import dotenv from "dotenv";
 import connectDB, { closeDB } from "./environments/db.js";
 
 import stockRoutes from "./routers/stock.routes.js";
-import watchlistRoutes from "./routers/watchlist.routes.js";
 import calculationRoutes from "./routers/calculation.routes.js";
-import activityRoutes from "./routers/activity.routes.js";
 import userRoutes from "./routers/user.routes.js";
 
 dotenv.config();
@@ -23,9 +21,7 @@ serverApp.use(cors({
 serverApp.use(express.json());
 
 serverApp.use("/api/stocks", stockRoutes);
-serverApp.use("/api/watchlist", watchlistRoutes);
 serverApp.use("/api/calculations", calculationRoutes);
-serverApp.use("/api/activity", activityRoutes);
 serverApp.use("/api/users", userRoutes);
 
 serverApp.get("/", (request, response) => {
